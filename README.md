@@ -3,7 +3,7 @@
 ### Domain lookup tool for global nameservers written in Go
 
 ```
-./query-gpop www.naver.com
+./Ndig www.naver.com
 
 QUERY www.naver.com
 GET Public DNS Server IPs
