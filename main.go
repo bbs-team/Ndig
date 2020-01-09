@@ -16,7 +16,7 @@ func main()  {
 	domain := os.Args[1]
 
 	//terminal.Clear()
-	fmt.Printf("QUERY %s\nGET Public DNS Server IPs\n", domain)
+	fmt.Printf("QUERY %s\nGET Public DNS Server IPs\n\n", domain)
 
 	//terminal.Clear()
 	dns.Do(domain).Print()
