@@ -3,9 +3,11 @@ package dns
 import (
 	"context"
 	"fmt"
+	"github.com/bbs-team/Ndig/pkg/http"
+	"github.com/bbs-team/Ndig/pkg/paint"
 	"github.com/jedib0t/go-pretty/table"
-	"query-gpop/pkg/http"
-	"query-gpop/pkg/paint"
+	"log"
+	"net"
 	"strings"
 )
 
@@ -73,7 +75,20 @@ func do(domain, country, countryId string, queue chan lookupResult) {
 	res, err := d.lookup(ctx, domain)
 	if err != nil {
 		e := fmt.Sprintf("%s/%s\n -> (%s)", country, pDns.ip, err)
-		panic(e)
+		log.Println(e)
+		queue <- lookupResult{
+			dnsServer: pDns.ip,
+			country:   country,
+			result:    &result{
+				A:     []net.IPAddr{
+					{
+						IP:   []byte{},
+						Zone: "",
+					},
+				},
+				CNAME: "",
+			},
+		}
 	}
 
 	data := lookupResult{

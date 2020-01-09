@@ -1,4 +1,4 @@
-module query-gpop
+module github.com/bbs-team/Ndig
 
 go 1.13
 

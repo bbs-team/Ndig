@@ -25,7 +25,7 @@ func init() {
 
 func New(ip string) *Client {
 	dc :=&Client{
-		timeout: time.Minute,
+		timeout: time.Second * 5,
 	}
 
 	dc.udp = &net.Resolver{

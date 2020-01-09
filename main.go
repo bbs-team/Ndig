@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/bbs-team/Ndig/pkg/dns"
 	"log"
 	"os"
-	"query-gpop/pkg/dns"
 )
 
 func main()  {
@@ -16,7 +16,7 @@ func main()  {
 	domain := os.Args[1]
 
 	//terminal.Clear()
-	fmt.Printf("QUERY %s\nGET Public DNS Server IPs", domain)
+	fmt.Printf("QUERY %s\nGET Public DNS Server IPs\n", domain)
 
 	//terminal.Clear()
 	dns.Do(domain).Print()
