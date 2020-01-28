@@ -13,7 +13,6 @@ var countryMap = map[string]string{
 	"Thailand":           "th",
 	"Taiwan":             "tw",
 	"Vietnam":            "vn",
-	"United States":      "us",
 	"USW(San Francisco)": "usw",
 	"USE(New York)":      "use",
 	"Germany":            "de",

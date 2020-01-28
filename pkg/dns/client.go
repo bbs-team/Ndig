@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -42,7 +43,7 @@ func New(ip string) *Client {
 		PreferGo: true,
 		Dial: func(ctx context.Context, n, a string) (conn net.Conn, e error) {
 			d := &net.Dialer{
-				Timeout:dc.timeout,
+				Timeout:dc.timeout+5,
 			}
 			return d.DialContext(ctx, "tcp", ip+":53")
 		},
@@ -71,14 +72,13 @@ func (c *Client) lookupUDP(ctx context.Context, domain string) (*result, error) 
 	if err != nil {
 		return nil, err
 	}
-	if cn[:len(cn) - 1] == domain {
+	if strings.ToLower(cn[:len(cn) - 1]) == strings.ToLower(domain) {
 		cn = "-"
 	}
 
 	// ip resolve
 	a, err := c.udp.LookupIPAddr(ctx, domain)
 	if err != nil {
-		log.Println("a")
 		return nil, err
 	}
 

@@ -7,6 +7,8 @@ import (
 	"os"
 )
 
+const version  = "0.1"
+
 func main()  {
 	if len(os.Args) < 2 {
 		printUsage()
@@ -23,5 +25,5 @@ func main()  {
 }
 
 func printUsage()  {
-	fmt.Println("usage: ./query-gpop [Domain]")
+	fmt.Println("usage: ./ndig [Domain]")
 }

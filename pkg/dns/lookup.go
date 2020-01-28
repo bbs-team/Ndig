@@ -24,6 +24,7 @@ type lookupResult struct {
 }
 
 func Do(domain string) *Lookup {
+
 	rc := make(chan lookupResult)
 	//ic := make(chan string)
 
@@ -49,6 +50,13 @@ func Do(domain string) *Lookup {
 }
 
 func do(domain, country, countryId string, queue chan lookupResult) {
+	defer func() {
+		recv := recover()
+		if recv != nil {
+			log.Printf("do() error occurred: \n%s\n\n" , recv)
+		}
+	}()
+
 	// http client 생성
 	c := http.New()
 
@@ -75,20 +83,15 @@ func do(domain, country, countryId string, queue chan lookupResult) {
 	res, err := d.lookup(ctx, domain)
 	if err != nil {
 		e := fmt.Sprintf("%s/%s\n -> (%s)", country, pDns.ip, err)
-		log.Println(e)
 		queue <- lookupResult{
 			dnsServer: pDns.ip,
 			country:   country,
 			result:    &result{
-				A:     []net.IPAddr{
-					{
-						IP:   []byte{},
-						Zone: "",
-					},
-				},
+				A:     []net.IPAddr{{},},
 				CNAME: "",
 			},
 		}
+		panic(e)
 	}
 
 	data := lookupResult{
@@ -101,6 +104,13 @@ func do(domain, country, countryId string, queue chan lookupResult) {
 }
 
 func gatherResult(r *Lookup, c <- chan lookupResult) {
+	defer func() {
+		recv := recover()
+		if recv != nil {
+			log.Printf("do() error occurred: \n%s\n\n" , recv)
+		}
+	}()
+
 	for {
 		res := <- c
 		r.paint.SetRow(table.Row{res.country, res.dnsServer, res.CNAME, res.pretty()})
@@ -124,13 +134,20 @@ func (l *Lookup) Print() {
 // A 레코드를 보기 좋게..
 func (lr *lookupResult)pretty() string {
 	ret := ""
+
+
 	for i, v := range lr.A {
+		t := fmt.Sprint(v)
+		if t == "{<nil> }" {
+			return trimBrace(t)
+		}
+
+		ret += trimBrace(t) + "\n"
 		if i == len(lr.A) -1 {
-			ret += strings.ReplaceAll(strings.ReplaceAll(fmt.Sprint(v), "{", ""), "}", "")
+			ret += trimBrace(t)
 			break
 		}
 	}
-
 	return ret
 }
 
@@ -143,4 +160,8 @@ func createURL(countryId string) string {
 	}
 
 	return endpoint + queryId + dataFormat
+}
+
+func trimBrace(s string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(s, "{", ""), "}", "")
 }
