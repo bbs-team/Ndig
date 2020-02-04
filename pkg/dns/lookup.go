@@ -3,8 +3,8 @@ package dns
 import (
 	"context"
 	"fmt"
-	"github.com/bbs-team/Ndig/pkg/http"
-	"github.com/bbs-team/Ndig/pkg/paint"
+	"github.com/bbs-team/ndig/pkg/http"
+	"github.com/bbs-team/ndig/pkg/paint"
 	"github.com/jedib0t/go-pretty/table"
 	"log"
 	"net"
@@ -142,11 +142,12 @@ func (lr *lookupResult)pretty() string {
 			return trimBrace(t)
 		}
 
-		ret += trimBrace(t) + "\n"
 		if i == len(lr.A) -1 {
 			ret += trimBrace(t)
 			break
 		}
+
+		ret += trimBrace(t) + "\n"
 	}
 	return ret
 }

@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/bbs-team/Ndig/pkg/dns"
+	"github.com/bbs-team/ndig/pkg/dns"
 	"log"
 	"os"
 )
 
+const appName = "ndig"
 const version  = "0.1"
 
 func main()  {
@@ -18,7 +19,7 @@ func main()  {
 	domain := os.Args[1]
 
 	//terminal.Clear()
-	fmt.Printf("QUERY %s\nGET Public DNS Server IPs\n\n", domain)
+	fmt.Printf("%s v%s\nQUERY %s\n\n",appName, version, domain)
 
 	//terminal.Clear()
 	dns.Do(domain).Print()
