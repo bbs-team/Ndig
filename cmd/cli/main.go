@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/bbs-team/ndig/pkg/dns"
+	"github.com/bbs-team/ndig/pkg/cli"
 	"log"
 	"os"
 )
@@ -22,7 +22,7 @@ func main()  {
 	fmt.Printf("%s v%s\nQUERY %s\n\n",appName, version, domain)
 
 	//terminal.Clear()
-	dns.Do(domain).Print()
+	cli.Do(domain).Print()
 }
 
 func printUsage()  {

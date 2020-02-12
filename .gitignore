@@ -88,3 +88,7 @@ fabric.properties
 .idea
 .DS_Store
 query-gpop*
+build-cross.sh
+
+meta
+log
