@@ -42,7 +42,7 @@ func UpdatePublicDnsFunc()  {
 		log.Fatal("updatePublicDns().json.Unmarshal():", err)
 	}
 
-	err := os.MkdirAll("meta", 0666)
+	err = os.MkdirAll("meta", 0666)
 	if err != nil {
 		log.Fatal("updatePublicDns().os.MkdirAll():", err)
 	}
