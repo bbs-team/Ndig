@@ -74,7 +74,9 @@ func (s *server)Start() {
 func (s *server)controller()  {
 	// apis
 	s.NoRoute(s.help())
-
-	s.GET("/query/:domain", queryDns())
-	s.GET("/countries", countries())
+	dnsApi := s.Group("/dns")
+	{
+		dnsApi.GET("/query/:domain", queryDns())
+		dnsApi.GET("/countries", countries())
+	}
 }

@@ -3,13 +3,13 @@ package batch
 import (
 	"encoding/json"
 	"github.com/bbs-team/ndig/pkg/dns"
-	"log"
 	"os"
 	"sync"
 	"time"
 )
 
 func UpdatePublicDnsFunc()  {
+	logWriter.Println("UpdatePublicDnsFunc() Start")
 	// var init
 	date := time.Now().Format("20060102")
 	metaPath := "meta/"
@@ -39,24 +39,25 @@ func UpdatePublicDnsFunc()  {
 	// Marshal data for write file
 	data, err := json.MarshalIndent(&s, "", "\t")
 	if err != nil {
-		log.Fatal("updatePublicDns().json.Unmarshal():", err)
+		logWriter.Fatal("updatePublicDns().json.Unmarshal():", err)
 	}
 
 	err = os.MkdirAll("meta", 0666)
 	if err != nil {
-		log.Fatal("updatePublicDns().os.MkdirAll():", err)
+		logWriter.Fatal("updatePublicDns().os.MkdirAll():", err)
 	}
 
 	// create and write daily file
 	f, err := os.Create(metaPath + date + fileName)
 	if err != nil {
-		log.Fatal("updatePublicDns().os.Open():", err)
+		logWriter.Fatal("updatePublicDns().os.Open():", err)
 	}
 
 	_, err = f.WriteAt(data, 0)
 	if err != nil {
-		log.Fatal("updatePublicDns().os.WriteAt:", err)
+		logWriter.Fatal("updatePublicDns().os.WriteAt:", err)
 	}
+	logWriter.Println("UpdatePublicDnsFunc() Success")
 
 	defer f.Close()
 }
