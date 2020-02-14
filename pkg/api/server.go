@@ -77,6 +77,7 @@ func (s *server)controller()  {
 	dnsApi := s.Group("/dns")
 	{
 		dnsApi.GET("/query/:domain", queryDns())
+		dnsApi.GET("/test", ResponseHtml())
 		dnsApi.GET("/countries", countries())
 	}
 }
